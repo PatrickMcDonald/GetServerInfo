@@ -32,7 +32,7 @@ let DoReadRegistry machine =
         description machine |> printfn "%s"
         ReadRegistry machine |> printfn "%A"
     with
-        | ex -> printfn "%s" ex.Message
+        | :? System.Security.SecurityException as ex -> printfn "%s" ex.Message
     printfn ""
 
 [<EntryPoint>]
