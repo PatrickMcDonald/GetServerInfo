@@ -46,6 +46,7 @@ let main argv =
         Remote "SERV8624";
         Remote "SERV8709";
         Remote "SERV8303A";
+        Remote "SERV8814";
     ]
 
     machines
