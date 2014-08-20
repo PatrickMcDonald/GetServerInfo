@@ -13,24 +13,24 @@ type HttpParameters = {
     //MaxRequestedBytes: int option;
     LastBootUpTime: System.DateTime }
 
-let ReadRegistry machine =
+let readRegistry machine =
 
     use parameters = getLocalMachineKey machine |> openNested ["System"; "CurrentControlSet"; "Services"; "HTTP"; "Parameters"] 
 
     { MaxFieldLength = readValueInt32 "MaxFieldLength" parameters;
       MaxRequestBytes = readValueInt32 "MaxRequestBytes" parameters;
       //MaxRequestedBytes = readValueInt32 "MaxRequestedBytes" parameters;
-      LastBootUpTime = Management.LastBootUpTime machine }
+      LastBootUpTime = lastBootUpTime machine }
 
 let description machine =
     match machine with
     | Local -> "Local"
     | Remote(machineName) -> machineName
 
-let DoReadRegistry machine =
+let doReadRegistry machine =
     try
         description machine |> printfn "%s"
-        ReadRegistry machine |> printfn "%A"
+        readRegistry machine |> printfn "%A"
     with
         | :? System.Security.SecurityException as ex -> printfn "%s" ex.Message
     printfn ""
@@ -50,7 +50,7 @@ let main argv =
     ]
 
     machines
-    |> Seq.iter DoReadRegistry
+    |> Seq.iter doReadRegistry
 
     Console.pause()
 

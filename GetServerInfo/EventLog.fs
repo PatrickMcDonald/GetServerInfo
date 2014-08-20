@@ -2,7 +2,7 @@
 
 open Types
 
-let ReadEventLog machine =
+let readEventLog machine =
     let eventLog1 = 
         match machine with 
         | Local -> new System.Diagnostics.EventLog("System")

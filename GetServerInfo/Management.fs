@@ -3,7 +3,7 @@
 open System.Management
 open Types
 
-let LastBootUpTime machine =
+let lastBootUpTime machine =
 
     let machineName =
         match machine with
