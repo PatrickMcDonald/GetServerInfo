@@ -41,13 +41,11 @@ let main argv =
 
     let machines = [
         Local;
+        Remote "DHX34244";
         Remote "SERV8460";
         Remote "SERV8279";
         Remote "SERV8303";
-        Remote "SERV8624";
-        Remote "SERV8709";
         Remote "SERV8303A";
-        Remote "SERV8814";
     ]
 
     machines
