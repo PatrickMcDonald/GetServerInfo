@@ -11,15 +11,18 @@ type HttpParameters = {
     MaxFieldLength : int option;
     MaxRequestBytes: int option;
     //MaxRequestedBytes: int option;
+    MaxTokenSize: int option;
     LastBootUpTime: System.DateTime }
 
 let readRegistry machine =
 
-    use parameters = getLocalMachineKey machine |> openNested ["System"; "CurrentControlSet"; "Services"; "HTTP"; "Parameters"] 
+    use httpParameters = getLocalMachineKey machine |> openNested ["System"; "CurrentControlSet"; "Services"; "HTTP"; "Parameters"] 
+    use kerberosParameters = getLocalMachineKey machine |> openNested ["System"; "CurrentControlSet"; "Control"; "Lsa"; "Kerberos"; "Parameters"]
 
-    { MaxFieldLength = readValueInt32 "MaxFieldLength" parameters;
-      MaxRequestBytes = readValueInt32 "MaxRequestBytes" parameters;
-      //MaxRequestedBytes = readValueInt32 "MaxRequestedBytes" parameters;
+    { MaxFieldLength = readValueInt32 "MaxFieldLength" httpParameters;
+      MaxRequestBytes = readValueInt32 "MaxRequestBytes" httpParameters;
+      //MaxRequestedBytes = readValueInt32 "MaxRequestedBytes" httpParameters;
+      MaxTokenSize = readValueInt32 "MaxTokenSize" kerberosParameters;
       LastBootUpTime = lastBootUpTime machine }
 
 let description machine =
@@ -45,7 +48,6 @@ let main argv =
         Remote "SERV8460";
         Remote "SERV8279";
         Remote "SERV8303";
-        Remote "SERV8303A";
     ]
 
     machines
